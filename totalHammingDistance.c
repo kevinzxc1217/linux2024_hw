@@ -6,11 +6,18 @@
 
 int totalHammingDistance(int* nums, int numsSize)
 {
-    int total = 0;;
-    for (int i = 0;i < numsSize;i++)
-        for (int j = 0; j < numsSize;j++)
-            total += __builtin_popcount(nums[i] ^ nums[j]); 
-    return total >> 1;
+    int total = 0;
+    int tmp = 0;
+    for (int i = 0;i < 32;i++){
+        for (int j = 0; j < numsSize;j++){
+            if((nums[j] >> i) & 1){
+                tmp += 1;
+            }
+        }
+        total += tmp * (numsSize - tmp);
+        tmp = 0;
+    }
+    return total;
 }
 
 int main()
