@@ -7,8 +7,9 @@
 int ceil_ilog2(uint32_t x)
 {
     uint32_t r, shift;
+    int mask = -(x==0);
+    x = (x-1)&(~mask);
 
-    x--;
     r = (x > 0xFFFF) << 4;                                                                                                                                    
     x >>= r;
     shift = (x > 0xFF) << 3;
@@ -19,10 +20,10 @@ int ceil_ilog2(uint32_t x)
     r |= shift;
     shift = (x > 0x3) << 1;
     x >>= shift;
-    return (r | shift | x > 1) + 1;       
+    return (r | shift | x > 1) + 1&(~mask);       
 }
 
-nt main()
+int main()
 {
     int ans = ceil_ilog2(0);
     printf("%d",ans);
